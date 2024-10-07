@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.vva.organizationservice.utils.UpdateUtils.isValidOrganizationId;
+
 @Service
 public class OrganizationService {
 
@@ -45,6 +47,11 @@ public class OrganizationService {
 
 
     public void deleteOrganization(String organizationId) {
+
+        if (!isValidOrganizationId(organizationId)) {
+            throw new IllegalArgumentException("Invalid organization ID. Expected UUID.");
+        }
+
         boolean exists = this.organizationRepository.existsById(organizationId);
         if (!exists) {
             throw new IllegalStateException("A organization with the id "+organizationId+" does not exist");

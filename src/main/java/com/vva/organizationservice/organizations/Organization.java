@@ -51,6 +51,17 @@ public class Organization {
     public Organization() {
     }
 
+    public Organization(String id, String name, String email, String poc, String phonenumber, String webaddress, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.poc = poc;
+        this.phonenumber = phonenumber;
+        this.webaddress = webaddress;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     // This makes the createdAt and updatedAt be the time when the row is made
     @PrePersist
     protected void onCreate() {
