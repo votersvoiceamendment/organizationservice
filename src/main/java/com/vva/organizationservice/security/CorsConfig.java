@@ -14,7 +14,7 @@ import java.util.List;
 public class CorsConfig {
 
     // Injecting the allowed origins from .env file
-    @Value("${ALLOWED_ORIGINS}")
+    @Value("${ALLOWED_ORIGINS:}")
     private String allowedOrigins;
 
     @Bean

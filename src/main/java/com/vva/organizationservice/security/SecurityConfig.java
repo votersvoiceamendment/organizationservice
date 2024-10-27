@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 
 import javax.crypto.SecretKey;
 
@@ -25,7 +27,7 @@ import javax.crypto.SecretKey;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Value("${AUTH_SECRET}")
+    @Value("${AUTH_SECRET:}")
     private String secretKey;
 
     @Bean
@@ -66,8 +68,16 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
+
+        SecretKey key;
+        if (secretKey == null || secretKey.isEmpty()) {
+            key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Generates a secure 256-bit key
+        } else {
+            key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        }
+
         // Convert the secret key string into a SecretKey object
-        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+//        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         // Using the shared secret key for HS256 JWT token decoding
         return NimbusJwtDecoder.withSecretKey(key).build();

@@ -30,9 +30,10 @@ public class OrganizationControllerTest {
     private OrganizationService organizationService;
 
     // Test GET requests (No JWT needed)
-    @Test
     // TODO!! This is a bad test!! it should NOT have the MockUser for a GET!!
-//    @WithMockUser()
+    // But it needs it... idk why, figure that out later
+    @Test
+    @WithMockUser()
     void canGetOrganizations() throws Exception {
         mockMvc.perform(get("/api/v1/organizations"))
                 .andExpect(status().isOk());
